@@ -4,6 +4,7 @@ import sounddevice as sd
 import scipy.io.wavfile as wav
 from scipy.signal import find_peaks
 from os.path import dirname, join as pjoin
+import time
 
 pi = np.pi
 
@@ -42,4 +43,28 @@ plt.plot(peaks, Vm[peaks], "X")
 plt.ylabel('Amplitude')
 plt.xlabel('Frequency [Hz]')
 plt.figure()
+plt.show()
+
+print(peaks)  # Frequencies
+print(Vm[peaks])  # Amplitudes
+print(ph[peaks])  # Phase ANgles
+
+signal = 0*np.cos(2*pi*t + 0)
+for x in peaks:
+    # Sinusoidal wave relevant to peak
+    s0 = Vm[x]*np.cos(2*pi*x*t + ph[x])
+    plt.plot(t[:1000], s0[:1000])
+    signal = signal + s0
+plt.figure()
+
+# play original sound
+sd.play(data, fs)
+time.sleep(1)
+
+# play generated sound
+sd.play(signal, fs)
+
+plt.plot(t[:1000], data[:1000])
+plt.figure()
+plt.plot(t[:1000], signal[:1000], color="g")
 plt.show()

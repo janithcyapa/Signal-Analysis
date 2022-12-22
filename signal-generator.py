@@ -43,7 +43,7 @@ s5 = scipy.signal.square(2*pi*400*t+0)
 Signal = s4*s5
 
 sd.play(Signal, fs)
-wav.write("generated/4.wav", fs, Signal)
+wav.write("gen/4.wav", fs, Signal)
 plt.plot(t[:2000], Signal[:2000])
 plt.ylabel('Amplitude')
 plt.xlabel('Time [s]')

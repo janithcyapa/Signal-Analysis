@@ -27,12 +27,16 @@ def signalGenerator(Vm, f, p):
     return signal
 
 
-signal = signalGenerator(0.5, 400, 0)
+# Musical Notes
+D = signalGenerator(1, 294, 0)  # D294
+F = signalGenerator(1, 349, 0)  # F349
+A = signalGenerator(1, 440, 0)  # A440
+C = signalGenerator(1, 523, 0)  # C523
 
 
-sd.play(signal, fs)
-wav.write("audio.wav", fs, signal)
-plt.plot(t[:2000], (signal)[:2000])
+sd.play(C, fs)
+wav.write("notes/C.wav", fs, C)
+plt.plot(t[:2000], (C)[:2000])
 plt.ylabel('Amplitude')
 plt.xlabel('Time [s]')
 plt.show()

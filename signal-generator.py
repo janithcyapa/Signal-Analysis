@@ -14,7 +14,20 @@ t = np.linspace(0, 1, fs)
 Simple signal produced by
 signal = amplitude*cos(2pi*frequency*time_array + phase_angle)
 '''
-signal = 0.5*np.cos(2*pi*400*t + 0)
+'''
+signalGenerator parameters
+Vm = amplitude
+f = frequency
+p = phase angle
+'''
+
+
+def signalGenerator(Vm, f, p):
+    signal = Vm*np.cos(2*pi*f*t + p)
+    return signal
+
+
+signal = signalGenerator(0.5, 400, 0)
 
 
 sd.play(signal, fs)

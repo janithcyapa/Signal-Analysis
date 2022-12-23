@@ -40,11 +40,14 @@ s3 = s2*signalGenerator(1, 440, 0)
 s4 = s3*signalGenerator(1, 520, pi/2)
 
 s5 = scipy.signal.square(2*pi*400*t+0)
-Signal = s4*s5
+# signal = s4*s5
 
-sd.play(Signal, fs)
-wav.write("gen/4.wav", fs, Signal)
-plt.plot(t[:2000], Signal[:2000])
+# piano
+signal = pow((np.sin(2*pi*440*t)), 3) + np.sin(2*pi*440*(t+(2/3)))
+
+sd.play(signal, fs)
+wav.write("audio.wav", fs, signal)
+plt.plot(t[:2000], signal[:2000])
 plt.ylabel('Amplitude')
 plt.xlabel('Time [s]')
 plt.show()

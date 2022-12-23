@@ -8,8 +8,8 @@ import time
 
 pi = np.pi
 
-data_dir = pjoin(dirname(__file__), 'gen')
-wav_fname = pjoin(data_dir, "4.wav")
+data_dir = pjoin(dirname(__file__))
+wav_fname = pjoin(data_dir, "n.wav")
 fs, _data = wav.read(wav_fname)
 data = _data.flatten()
 
@@ -30,8 +30,8 @@ Magnitude (Vm) = absolute of Z[]
 Phase angle (p) = angle of Z[]
 '''
 
-f = fs * np.arange((N/2)) / N  # frequencies
-Z = np.fft.fft(data)  # fourier transformation
+f = fs * np.arange((N)) / N  # frequencies
+Z = (2/N)*np.fft.fft(data)  # fourier transformation
 Vm = np.abs(Z)  # Absolutes
 ph = np.angle(Z)  # Phase angles
 peaks, _ = find_peaks(Vm)  # Peak Points
@@ -43,7 +43,7 @@ plt.plot(peaks, Vm[peaks], "X")
 plt.ylabel('Amplitude')
 plt.xlabel('Frequency [Hz]')
 plt.figure()
-plt.show()
+
 
 print(peaks)  # Frequencies
 print(Vm[peaks])  # Amplitudes

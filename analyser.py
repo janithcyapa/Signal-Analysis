@@ -8,8 +8,9 @@ import time
 
 pi = np.pi
 
-data_dir = pjoin(dirname(__file__))
-wav_fname = pjoin(data_dir, "n.wav")
+
+data_dir = pjoin(dirname(__file__), "gen")
+wav_fname = pjoin(data_dir, "1.wav")
 fs, _data = wav.read(wav_fname)
 data = _data.flatten()
 
@@ -30,32 +31,45 @@ Magnitude (Vm) = absolute of Z[]
 Phase angle (p) = angle of Z[]
 '''
 
-f = fs * np.arange((N)) / N  # frequencies
-Z = (2/N)*np.fft.fft(data)  # fourier transformation
+
+Z = (2/N)*np.fft.fft(data)[0:int(N/2)]  # FFT
+f = fs * np.arange((N/2)) / N  # frequencies
 Vm = np.abs(Z)  # Absolutes
 ph = np.angle(Z)  # Phase angles
-peaks, _ = find_peaks(Vm)  # Peak Points
+peaks, _ = find_peaks(Vm, height=0.01)  # Peak Points
 
 # plotting
 fig, ax = plt.subplots()
-plt.plot(f, Vm)
-plt.plot(peaks, Vm[peaks], "X")
+plt.plot(f, Vm, '-',
+         f[peaks], _['peak_heights'], 'x')
 plt.ylabel('Amplitude')
 plt.xlabel('Frequency [Hz]')
 plt.figure()
 
+print('Positions and magnitude of frequency peaks:')
 
-print(peaks)  # Frequencies
-print(Vm[peaks])  # Amplitudes
-print(ph[peaks])  # Phase ANgles
+print("{:<10} {:<10} {:<10}".format('f', 'Vm', 'ph'))
+for i in range(len(peaks)):
+    print("{:<10} {:<10} {:<10}".format(
+        round(f[peaks[i]], 2),  round(_['peak_heights'][i], 2), round(ph[peaks[i]], 2)))
+
 
 signal = 0*np.cos(2*pi*t + 0)
-for x in peaks:
+for i in range(len(peaks)):
     # Sinusoidal wave relevant to peak
-    s0 = Vm[x]*np.cos(2*pi*x*t + ph[x])
-    plt.plot(t[:1000], s0[:1000])
+    s0 = _['peak_heights'][i]*np.cos(2*pi*f[peaks[i]]*t + ph[peaks[i]])
+    # plt.plot(t[:1000], s0[:1000])
     signal = signal + s0
-plt.figure()
+# plt.figure()
+
+
+# for x in peaks:
+#     # Sinusoidal wave relevant to peak
+#     s0 = Vm[x]*np.cos(2*pi*x*t + ph[x])
+#     # plt.plot(t[:1000], s0[:1000])
+#     signal = signal + s0
+# # plt.figure()
+
 
 # play original sound
 sd.play(data, fs)

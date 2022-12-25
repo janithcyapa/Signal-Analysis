@@ -4,8 +4,8 @@ import sounddevice as sd
 import scipy.io.wavfile as wav
 from os.path import dirname, join as pjoin
 
-data_dir = pjoin(dirname(__file__), "notes")
-wav_fname = pjoin(data_dir, "D.wav")
+data_dir = pjoin(dirname(__file__), "gen")
+wav_fname = pjoin(data_dir, "piano.wav")
 fs, _data = wav.read(wav_fname)
 data = _data.flatten()
 

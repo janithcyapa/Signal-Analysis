@@ -9,8 +9,8 @@ import time
 pi = np.pi
 
 
-data_dir = pjoin(dirname(__file__), "sample")
-wav_fname = pjoin(data_dir, "AnotesustainMono.wav")
+data_dir = pjoin(dirname(__file__), "gen")
+wav_fname = pjoin(data_dir, "sample.wav")
 fs, _data = wav.read(wav_fname)
 data = _data.flatten()
 
@@ -37,7 +37,7 @@ f = fs * np.arange((N/2)) / N  # frequencies
 Vm = np.abs(Z)  # Absolutes
 ph = np.angle(Z)  # Phase angles
 # Peak Points height - threshold value
-peaks, _ = find_peaks(Vm, height=50)
+peaks, _ = find_peaks(Vm, height=0.001)
 
 # plotting
 fig, ax = plt.subplots()
@@ -63,14 +63,6 @@ for i in range(len(peaks)):
     plt.plot(t[:1000], s0[:1000])
     signal = signal + s0
 plt.figure()
-
-
-# for x in peaks:
-#     # Sinusoidal wave relevant to peak
-#     s0 = Vm[x]*np.cos(2*pi*x*t + ph[x])
-#     # plt.plot(t[:1000], s0[:1000])
-#     signal = signal + s0
-# # plt.figure()
 
 
 # play original sound

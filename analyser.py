@@ -9,8 +9,8 @@ import time
 pi = np.pi
 
 
-data_dir = pjoin(dirname(__file__), "gen")
-wav_fname = pjoin(data_dir, "1.wav")
+data_dir = pjoin(dirname(__file__), "sample")
+wav_fname = pjoin(data_dir, "AnotesustainMono.wav")
 fs, _data = wav.read(wav_fname)
 data = _data.flatten()
 
@@ -36,12 +36,14 @@ Z = (2/N)*np.fft.fft(data)[0:int(N/2)]  # FFT
 f = fs * np.arange((N/2)) / N  # frequencies
 Vm = np.abs(Z)  # Absolutes
 ph = np.angle(Z)  # Phase angles
-peaks, _ = find_peaks(Vm, height=0.01)  # Peak Points
+# Peak Points height - threshold value
+peaks, _ = find_peaks(Vm, height=50)
 
 # plotting
 fig, ax = plt.subplots()
 plt.plot(f, Vm, '-',
          f[peaks], _['peak_heights'], 'x')
+plt.figtext(.2, .9, f"X - peak points ")
 plt.ylabel('Amplitude')
 plt.xlabel('Frequency [Hz]')
 plt.figure()
@@ -58,9 +60,9 @@ signal = 0*np.cos(2*pi*t + 0)
 for i in range(len(peaks)):
     # Sinusoidal wave relevant to peak
     s0 = _['peak_heights'][i]*np.cos(2*pi*f[peaks[i]]*t + ph[peaks[i]])
-    # plt.plot(t[:1000], s0[:1000])
+    plt.plot(t[:1000], s0[:1000])
     signal = signal + s0
-# plt.figure()
+plt.figure()
 
 
 # for x in peaks:
